@@ -7,10 +7,10 @@ pub mod commands;
 pub enum Command {
     /// Initialize a new package.json file
     Init(commands::init::InitOptions),
-    
+
     /// Install packages
     Install(commands::install::InstallOptions),
-    
+
     /// List installed packages
     List(commands::list::ListOptions),
 }

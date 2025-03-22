@@ -1,6 +1,95 @@
-# RJS (Rust JavaScript Package Manager)
+# RJS - Rust JavaScript Package Manager
 
-**Goal:** Build a modern, fast, and secure npm alternative written in Rust.
+A lightweight JavaScript package manager built with Rust.
+
+## Features
+
+- Initialize new projects
+- Install packages
+- List installed dependencies
+- Manage development dependencies
+
+## Installation
+
+```
+cargo install --path .
+```
+
+## Usage
+
+### Initialize a new project
+
+```
+rjs init [--yes/-y]
+```
+
+### Install a package
+
+```
+rjs install <package-name> [--dev/-D]
+```
+
+### List installed packages
+
+```
+rjs list
+```
+
+## Project Structure
+
+```
+src/
+  ├── cli/
+  │   ├── commands/
+  │   │   ├── init.rs
+  │   │   ├── install.rs
+  │   │   ├── list.rs
+  │   │   └── mod.rs
+  │   └── mod.rs
+  ├── dependency/
+  │   └── mod.rs
+  ├── package/
+  │   └── mod.rs
+  ├── registry/
+  │   └── mod.rs
+  ├── utils/
+  │   └── mod.rs
+  └── main.rs
+tests/
+  ├── functional.rs
+  └── performance.rs
+```
+
+## Development
+
+### Scripts
+
+- `./build.sh` - Build, format, and check the project
+- `./setup.sh` - Set up the development environment
+- `./run_tests.sh` - Run all tests
+- `./run_performance_tests.sh` - Run performance tests with detailed output
+- `./git_push.sh [commit message]` - Add, commit, and push changes to Git
+
+### Testing
+
+The project includes two types of tests:
+
+1. **Functional Tests** - Verify the correct behavior of commands
+2. **Performance Tests** - Measure the execution time of commands
+
+To run tests:
+
+```bash
+# Run all tests
+./run_tests.sh
+
+# Run performance tests only
+./run_performance_tests.sh
+```
+
+## License
+
+MIT
 
 ---
 

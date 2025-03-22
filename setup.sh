@@ -36,13 +36,6 @@ else
     echo "- C compiler toolchain"
 fi
 
-# Set up directory structure
-echo "Creating directory structure..."
-mkdir -p src/cli/commands
-mkdir -p src/dependency
-mkdir -p src/registry
-mkdir -p src/utils
-
 # Build the project
 echo "Building the project..."
 cargo build

@@ -24,13 +24,13 @@ struct Cli {
 async fn main() -> Result<()> {
     // Initialize logger
     env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
-    
+
     // Parse command line arguments
     let cli = Cli::parse();
-    
+
     // Execute the command
     info!("RJS - Rust JavaScript Package Manager");
     cli.command.execute().await?;
-    
+
     Ok(())
 }
