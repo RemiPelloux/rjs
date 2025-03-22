@@ -12,7 +12,7 @@ clap = { version = "4.4", features = ["derive"] }
 tokio = { version = "1.35", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-reqwest = { version = "0.11", features = ["json", "rustls-tls"], default-features = false }
+reqwest = { version = "0.11", features = ["json", "rustls-tls", "stream"], default-features = false }
 anyhow = "1.0"
 thiserror = "1.0"
 semver = "1.0"
@@ -33,6 +33,8 @@ crossbeam = "0.8"
 rayon = "1.8"
 url = "2.4"
 hex = "0.4"
+num_cpus = "1.16"
+atty = "0.2"
 
 [dev-dependencies]
 tempfile = "3.8"
@@ -52,6 +54,7 @@ lto = "fat"
 codegen-units = 1
 panic = "abort"
 strip = true
+debug = false
 
 # Add a performance profile for even better benchmarking
 [profile.bench]

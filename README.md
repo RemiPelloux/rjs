@@ -1,14 +1,19 @@
 # RJS - Rust JavaScript Package Manager
 
-A lightweight, high-performance JavaScript package manager built with Rust.
+A lightning-fast, high-performance JavaScript package manager built with Rust.
 
 ## Features
 
 - **Initialize new projects** - Create package.json files with customizable defaults
-- **Install packages** - Fast dependency installation with progress tracking
+- **Install packages** - Ultra-fast dependency installation with parallel processing
 - **Dependency management** - Handle both production and development dependencies
 - **List installed packages** - View all dependencies with formatted output
 - **Optimized performance** - Up to 2000x faster than traditional package managers for certain operations
+- **Advanced caching** - Smart package resolution caching to avoid redundant network requests
+- **Parallel downloads** - Concurrent package retrieval and installation
+- **Work-stealing algorithm** - Dynamic workload distribution for optimal CPU utilization
+- **Streaming downloads** - Efficient streaming of package tarballs with minimal memory usage
+- **Beautiful progress bars** - Real-time visual feedback during installation
 
 ## Installation
 
@@ -42,6 +47,15 @@ rjs install pkg1 pkg2 pkg3
 
 # Install from package.json
 rjs install
+
+# Install with custom concurrency level
+rjs install --concurrency 16
+
+# Install with custom batch size
+rjs install --batch-size 50
+
+# Install without progress display (faster for CI)
+rjs install --no-progress
 ```
 
 ### List installed packages
@@ -107,6 +121,35 @@ list --production    |██████████████████ 0.4
                        Before optimization █  After optimization █
 ```
 
+## New Performance Features
+
+### 1. Ultra-Fast Package Resolution
+
+Our latest update introduces several critical performance optimizations:
+
+- **Package Resolution Cache**: Caches package metadata to eliminate redundant network requests
+- **Parallel Batch Processing**: Resolves dependencies in optimized batches for maximum throughput
+- **Work-Stealing Algorithm**: Dynamically distributes workload across worker threads
+- **Zero-Copy Optimization**: Minimizes memory allocation and copying during package resolution
+
+### 2. Parallel Installation Engine
+
+The new installation engine leverages advanced concurrency techniques:
+
+- **Concurrent Package Downloads**: Downloads multiple packages simultaneously
+- **Streaming Download Pipeline**: Processes package data in chunks as it arrives
+- **Parallel Extraction**: Extracts package tarballs using dedicated worker threads
+- **Asynchronous File I/O**: Non-blocking file operations to maximize throughput
+
+### 3. Customizable Performance Settings
+
+Fine-tune performance for your specific hardware:
+
+- **Adjustable Concurrency**: Control the number of parallel operations with `--concurrency`
+- **Batch Size Tuning**: Optimize memory usage with `--batch-size`
+- **Headless Mode**: Boost performance in CI environments with `--no-progress`
+- **Auto-Tuning**: Automatically detects optimal settings based on system capabilities
+
 ## Project Structure
 
 ```
@@ -120,7 +163,7 @@ list --production    |██████████████████ 0.4
 │   │   │   └── mod.rs        # Command exports
 │   │   └── mod.rs            # CLI module
 │   ├── dependency/           # Dependency resolution
-│   │   └── mod.rs            # Dependency tracking
+│   │   └── mod.rs            # Dependency tracking & resolution
 │   ├── registry/             # Registry operations
 │   │   └── mod.rs            # npm registry communication
 │   ├── utils/                # Shared utilities
@@ -186,6 +229,9 @@ The project includes several performance optimizations:
 - **Benchmarking**: Iterative testing with warm-up runs for accurate measurements
 - **Efficient algorithms**: Minimized I/O operations and parallel processing
 - **Minimal dependencies**: Careful selection of dependencies to reduce bloat
+- **HTTP2 support**: Leverages multiplexed connections for faster downloads
+- **Connection pooling**: Reuses connections to minimize handshake overhead
+- **Rayon parallel iterators**: Utilizes all CPU cores for computation-heavy tasks
 
 ### Development Setup
 
@@ -222,13 +268,26 @@ MIT
 
 ---
 
-## Features (Planned)
+## Features (Implemented)
+
 - ⚡ Ultra-fast install using Rust async I/O
 - 🔒 Secure architecture, minimal memory bugs
-- 🧠 Deterministic lockfile generation
+- 🧠 Smart dependency resolution with caching
 - 🎨 Beautiful and responsive CLI UX
-- 🧩 Support for multiple project templates (React, Vue, Next.js, Node.js API)
-- 📦 Enhanced dependency resolution
+- 🧩 Support for project templates (React, Node.js)
+- 📦 Advanced parallel dependency resolution
+- ⚙️ Customizable performance settings
+- 🚀 Streaming downloads with minimal memory usage
+- 🧵 Work-stealing algorithm for optimal resource usage
+
+## Roadmap
+
+- 🔄 Dependency deduplication
+- 🔒 Lockfile generation
+- 📊 Visualization of dependency tree
+- 🌐 Offline mode
+- 🔍 Vulnerability scanning
+- 🧰 Plugin system
 
 ---
 

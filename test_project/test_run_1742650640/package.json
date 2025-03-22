@@ -27,11 +27,8 @@
     "proxy-addr": "0.0.0",
     "qs": "0.0.0",
     "range-parser": "0.0.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
     "router": "0.0.0",
     "safe-buffer": "0.0.0",
-    "scheduler": "0.0.0",
     "send": "0.0.0",
     "serve-static": "0.0.0",
     "setprototypeof": "0.0.0",
@@ -44,7 +41,7 @@
   "devDependencies": {},
   "license": "ISC",
   "main": "index.js",
-  "name": "RJS",
+  "name": "test_run_1742650640",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
