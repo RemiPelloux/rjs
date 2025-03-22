@@ -1,5 +1,7 @@
 use anyhow::Result;
 use clap::Subcommand;
+use console::style;
+use log::info;
 
 pub mod commands;
 
@@ -18,7 +20,11 @@ pub enum Command {
 impl Command {
     pub async fn execute(self) -> Result<()> {
         match self {
-            Command::Init(opts) => commands::init::execute(opts).await,
+            Command::Init(opts) => {
+                println!("{}", style("RJS - Initialize a new project").bold().green());
+                info!("Initializing new project");
+                commands::init::execute(opts).await
+            },
             Command::Install(opts) => commands::install::execute(opts).await,
             Command::List(opts) => commands::list::execute(opts).await,
         }
