@@ -21,7 +21,11 @@ cargo install --path .
 ### Initialize a new project
 
 ```bash
-rjs init [--yes/-y]
+# Initialize with interactive prompts
+rjs init
+
+# Skip prompts and use defaults
+rjs init --yes/-y
 ```
 
 ### Install a package
@@ -117,27 +121,25 @@ list --production    |██████████████████ 0.4
 │   │   └── mod.rs            # CLI module
 │   ├── dependency/           # Dependency resolution
 │   │   └── mod.rs            # Dependency tracking
-│   ├── package/              # Package management
-│   │   └── mod.rs            # Package operations
 │   ├── registry/             # Registry operations
 │   │   └── mod.rs            # npm registry communication
 │   ├── utils/                # Shared utilities
 │   │   └── mod.rs            # File system, hash operations
 │   └── main.rs               # Application entry point
+├── scripts/                  # Development scripts
+│   ├── dev/                  # Development utilities
+│   │   ├── build.sh          # Build script
+│   │   └── setup.sh          # Setup script
+│   ├── git/                  # Git operations
+│   │   └── push.sh           # Git push script
+│   ├── tests/                # Test runners
+│   │   ├── run_tests.sh      # Run all tests
+│   │   └── run_performance_tests.sh # Run performance tests
+│   └── utils/                # Script utilities
+│       └── common.sh         # Shared functions
 ├── tests/                    # Test suite
 │   ├── functional.rs         # Command behavior tests
 │   └── performance.rs        # Performance benchmarks
-└── scripts/                  # Development scripts
-    ├── dev/                  # Development utilities
-    │   ├── build.sh          # Build script
-    │   └── setup.sh          # Setup script
-    ├── git/                  # Git operations
-    │   └── push.sh           # Git push script
-    ├── tests/                # Test runners
-    │   ├── run_tests.sh      # Run all tests
-    │   └── run_performance_tests.sh # Run perf tests
-    └── utils/                # Script utilities
-        └── common.sh         # Shared functions
 ```
 
 ## Development
@@ -173,6 +175,8 @@ To run tests:
 # Run performance tests only
 ./scripts/tests/run_performance_tests.sh
 ```
+
+The test scripts set up a temporary test environment and run the appropriate test suites. The performance tests compile the project in release mode before running to ensure accurate benchmarks.
 
 ### Performance Optimization
 
@@ -223,20 +227,8 @@ MIT
 - 🔒 Secure architecture, minimal memory bugs
 - 🧠 Deterministic lockfile generation
 - 🎨 Beautiful and responsive CLI UX
-
----
-
-## Project Structure
-
-```
-src/
-├── cli/            # CLI parsing & command dispatch
-│   └── commands/   # Subcommand handlers: install, init
-├── dependency/     # Dependency resolution, lockfile generation
-├── registry/       # Handles communication with npm registry
-├── utils/          # Shared FS and HTTP utilities
-└── main.rs         # Entrypoint
-```
+- 🧩 Support for multiple project templates (React, Vue, Next.js, Node.js API)
+- 📦 Enhanced dependency resolution
 
 ---
 
@@ -247,6 +239,15 @@ src/
 3. Build the CLI:
 ```bash
 cargo build
+```
+
+4. Initialize a new project:
+```bash
+# With interactive prompts
+cargo run -- init
+
+# Skip prompts
+cargo run -- init -y
 ```
 
 ---
