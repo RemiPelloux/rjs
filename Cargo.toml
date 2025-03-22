@@ -1,0 +1,45 @@
+[package]
+name = "rjs"
+version = "0.1.0"
+edition = "2024"
+authors = ["RJS Team"]
+description = "A modern, fast, and secure npm alternative written in Rust"
+license = "MIT"
+repository = "https://github.com/RemiPelloux/rjs"
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = { version = "0.11", features = ["json", "rustls-tls"], default-features = false }
+anyhow = "1.0"
+thiserror = "1.0"
+semver = "1.0"
+dirs = "5.0"
+indicatif = "0.17"
+console = "0.15"
+log = "0.4"
+env_logger = "0.10"
+async-recursion = "1.0"
+futures = "0.3"
+sha2 = "0.10"
+walkdir = "2.4"
+tar = "0.4"
+flate2 = "1.0"
+toml = "0.8"
+dialoguer = "0.11"
+crossbeam = "0.8"
+rayon = "1.8"
+url = "2.4"
+hex = "0.4"
+
+[dev-dependencies]
+tempfile = "3.8"
+criterion = "0.5"
+mockito = "1.2"
+tokio-test = "0.4"
+
+[[bin]]
+name = "rjs"
+path = "src/main.rs"
