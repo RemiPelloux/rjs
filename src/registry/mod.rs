@@ -8,6 +8,7 @@ use std::time::Duration;
 const DEFAULT_REGISTRY: &str = "https://registry.npmjs.org";
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub struct VersionInfo {
     pub version: String,
     pub dependencies: HashMap<String, String>,
@@ -16,12 +17,14 @@ pub struct VersionInfo {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 pub struct DistInfo {
     pub shasum: String,
     pub tarball: String,
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub struct PackageInfo {
     pub name: String,
     pub versions: HashMap<String, VersionInfo>,
@@ -29,6 +32,7 @@ pub struct PackageInfo {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct NpmPackageVersion {
     version: String,
     dependencies: Option<HashMap<String, String>>,
@@ -38,6 +42,7 @@ struct NpmPackageVersion {
 }
 
 #[derive(Debug, Deserialize)]
+#[allow(dead_code)]
 struct NpmPackageResponse {
     name: String,
     versions: HashMap<String, NpmPackageVersion>,
@@ -45,12 +50,14 @@ struct NpmPackageResponse {
     dist_tags: HashMap<String, String>,
 }
 
+#[allow(dead_code)]
 pub struct NpmRegistry {
     client: Client,
     registry_url: String,
 }
 
 impl NpmRegistry {
+    #[allow(dead_code)]
     pub fn new() -> Self {
         Self::with_registry(DEFAULT_REGISTRY)
     }
@@ -67,6 +74,7 @@ impl NpmRegistry {
         }
     }
 
+    #[allow(dead_code)]
     pub async fn get_package_info(&self, package_name: &str) -> Result<PackageInfo> {
         let url = format!("{}/{}", self.registry_url, package_name);
         debug!("Fetching package info from {}", url);
@@ -114,6 +122,7 @@ impl NpmRegistry {
         })
     }
 
+    #[allow(dead_code)]
     pub async fn download_package(
         &self,
         tarball_url: &str,
@@ -147,6 +156,7 @@ impl NpmRegistry {
     }
 
     // Helper method to extract a tarball
+    #[allow(dead_code)]
     pub fn extract_tarball(
         &self,
         tarball_path: &std::path::Path,

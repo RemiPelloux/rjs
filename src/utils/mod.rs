@@ -6,6 +6,7 @@ use tokio::fs;
 use url::Url;
 
 // File system utilities
+#[allow(dead_code)]
 pub async fn ensure_dir(path: &Path) -> Result<()> {
     if !path.exists() {
         debug!("Creating directory: {}", path.display());
@@ -16,6 +17,7 @@ pub async fn ensure_dir(path: &Path) -> Result<()> {
     Ok(())
 }
 
+#[allow(dead_code)]
 pub async fn write_file(path: &Path, content: &[u8]) -> Result<()> {
     // Ensure the parent directory exists
     if let Some(parent) = path.parent() {
@@ -30,6 +32,7 @@ pub async fn write_file(path: &Path, content: &[u8]) -> Result<()> {
     Ok(())
 }
 
+#[allow(dead_code)]
 pub async fn read_file(path: &Path) -> Result<Vec<u8>> {
     debug!("Reading file: {}", path.display());
     fs::read(path)
@@ -37,6 +40,7 @@ pub async fn read_file(path: &Path) -> Result<Vec<u8>> {
         .with_context(|| format!("Failed to read file: {}", path.display()))
 }
 
+#[allow(dead_code)]
 pub async fn read_file_string(path: &Path) -> Result<String> {
     debug!("Reading file as string: {}", path.display());
     fs::read_to_string(path)
@@ -44,11 +48,13 @@ pub async fn read_file_string(path: &Path) -> Result<String> {
         .with_context(|| format!("Failed to read file as string: {}", path.display()))
 }
 
+#[allow(dead_code)]
 pub async fn file_exists(path: &Path) -> bool {
     path.exists()
 }
 
 // Hash utilities
+#[allow(dead_code)]
 pub fn calculate_sha256(data: &[u8]) -> String {
     let mut hasher = Sha256::new();
     hasher.update(data);
@@ -56,12 +62,14 @@ pub fn calculate_sha256(data: &[u8]) -> String {
     hex::encode(result)
 }
 
+#[allow(dead_code)]
 pub async fn calculate_file_sha256(path: &Path) -> Result<String> {
     let content = read_file(path).await?;
     Ok(calculate_sha256(&content))
 }
 
 // URL utilities
+#[allow(dead_code)]
 pub fn get_package_name_from_url(url_str: &str) -> Result<String> {
     let url = Url::parse(url_str).with_context(|| format!("Failed to parse URL: {}", url_str))?;
 
@@ -77,6 +85,7 @@ pub fn get_package_name_from_url(url_str: &str) -> Result<String> {
 }
 
 // Path utilities
+#[allow(dead_code)]
 pub fn get_cache_dir() -> Result<PathBuf> {
     let cache_dir = dirs::cache_dir()
         .ok_or_else(|| anyhow::anyhow!("Failed to determine cache directory"))?
@@ -91,6 +100,7 @@ pub fn get_cache_dir() -> Result<PathBuf> {
     Ok(cache_dir)
 }
 
+#[allow(dead_code)]
 pub fn get_temp_dir() -> Result<PathBuf> {
     let temp_dir = std::env::temp_dir().join("rjs");
 

@@ -70,6 +70,7 @@ pub async fn execute(opts: ListOptions) -> Result<()> {
 
     if dependencies.is_empty() && dev_dependencies.is_empty() {
         info!("No dependencies found.");
+        println!("No dependencies found in package.json");
         return Ok(());
     }
 

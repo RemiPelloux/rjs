@@ -4,7 +4,7 @@ use console::style;
 use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 use log::{info, warn};
 use std::collections::BTreeMap;
-use std::path::PathBuf;
+use std::path::Path;
 use std::time::Duration;
 use tokio::time;
 
@@ -36,6 +36,7 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
 
     if !package_json_path.exists() {
         warn!("No package.json found. Run 'rjs init' first or specify packages to install.");
+        println!("No package.json found. Run 'rjs init' first or specify packages to install.");
         if opts.packages.is_empty() {
             return Ok(());
         }
@@ -43,11 +44,13 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
 
     if opts.packages.is_empty() {
         info!("Installing dependencies from package.json");
+        println!("Installing dependencies from package.json");
         return install_from_package_json(&cwd, opts.frozen).await;
     }
 
     // Install specified packages
     info!("Installing specified packages: {:?}", opts.packages);
+    println!("Installing specified packages: {:?}", opts.packages);
 
     let registry = NpmRegistry::new();
     let _resolver = DependencyResolver::new(registry);
@@ -96,13 +99,15 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
     if !opts.no_save {
         // Logic to update package.json
         info!("Updated package.json");
+        println!("Updated package.json");
     }
 
     info!("Installed {} packages", opts.packages.len());
+    println!("Installed {} packages", opts.packages.len());
     Ok(())
 }
 
-async fn install_from_package_json(cwd: &PathBuf, _frozen: bool) -> Result<()> {
+async fn install_from_package_json(cwd: &Path, _frozen: bool) -> Result<()> {
     let package_json_path = cwd.join("package.json");
     let package_json_content = std::fs::read_to_string(&package_json_path)
         .with_context(|| format!("Failed to read {}", package_json_path.display()))?;
@@ -126,10 +131,12 @@ async fn install_from_package_json(cwd: &PathBuf, _frozen: bool) -> Result<()> {
 
     if total_deps == 0 {
         info!("No dependencies found in package.json");
+        println!("No dependencies found in package.json");
         return Ok(());
     }
 
     info!("Found {} dependencies in package.json", total_deps);
+    println!("Found {} dependencies in package.json", total_deps);
 
     // Set up progress
     let progress_bar = ProgressBar::new(total_deps as u64);
@@ -155,6 +162,7 @@ async fn install_from_package_json(cwd: &PathBuf, _frozen: bool) -> Result<()> {
     }
 
     progress_bar.finish_with_message("All dependencies installed successfully!");
+    println!("All dependencies installed successfully!");
 
     Ok(())
 }

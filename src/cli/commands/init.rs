@@ -65,6 +65,7 @@ pub async fn execute(opts: InitOptions) -> Result<()> {
         .with_context(|| format!("Failed to write to {}", package_path.display()))?;
 
     info!("Created package.json");
+    println!("Created package.json");
 
     Ok(())
 }

@@ -7,6 +7,7 @@ use std::path::Path;
 use crate::registry::NpmRegistry;
 
 #[derive(Clone)]
+#[allow(dead_code)]
 pub struct Package {
     pub name: String,
     pub version: String,
@@ -14,17 +15,20 @@ pub struct Package {
     pub dev_dependencies: HashMap<String, String>,
 }
 
+#[allow(dead_code)]
 pub struct DependencyTree {
     pub root: Package,
     pub dependencies: HashMap<String, Package>,
 }
 
+#[allow(dead_code)]
 pub struct DependencyResolver {
     registry: NpmRegistry,
     visited: HashSet<String>,
 }
 
 impl DependencyResolver {
+    #[allow(dead_code)]
     pub fn new(registry: NpmRegistry) -> Self {
         Self {
             registry,
@@ -32,6 +36,7 @@ impl DependencyResolver {
         }
     }
 
+    #[allow(dead_code)]
     pub async fn resolve_package(&mut self, name: &str, version_req: &str) -> Result<Package> {
         let key = format!("{}@{}", name, version_req);
 
@@ -52,7 +57,7 @@ impl DependencyResolver {
         let package_info = self.registry.get_package_info(name).await?;
 
         // Find the best matching version
-        let version_req = VersionReq::parse(version_req).unwrap_or_else(|_| VersionReq::STAR);
+        let version_req = VersionReq::parse(version_req).unwrap_or(VersionReq::STAR);
 
         let best_version = package_info
             .versions
@@ -84,6 +89,7 @@ impl DependencyResolver {
         Ok(package)
     }
 
+    #[allow(dead_code)]
     pub async fn resolve_dependencies(&mut self, root_pkg: &Package) -> Result<DependencyTree> {
         let mut dependencies = HashMap::new();
 
@@ -99,6 +105,7 @@ impl DependencyResolver {
         })
     }
 
+    #[allow(dead_code)]
     pub async fn install_tree(&self, tree: &DependencyTree, install_path: &Path) -> Result<()> {
         // Create node_modules directory if it doesn't exist
         let node_modules = install_path.join("node_modules");
@@ -107,7 +114,7 @@ impl DependencyResolver {
         }
 
         // Install all dependencies
-        for (_, pkg) in &tree.dependencies {
+        for pkg in tree.dependencies.values() {
             let pkg_dir = node_modules.join(&pkg.name);
             if !pkg_dir.exists() {
                 std::fs::create_dir_all(&pkg_dir)?;
@@ -139,6 +146,7 @@ impl DependencyResolver {
 }
 
 // Helper methods that could be used by commands
+#[allow(dead_code)]
 pub fn read_package_json(path: &Path) -> Result<Package> {
     let content = std::fs::read_to_string(path)?;
     let json: serde_json::Value = serde_json::from_str(&content)?;
@@ -183,6 +191,7 @@ pub fn read_package_json(path: &Path) -> Result<Package> {
     })
 }
 
+#[allow(dead_code)]
 pub fn update_package_json(
     path: &Path,
     dependencies: &HashMap<String, String>,

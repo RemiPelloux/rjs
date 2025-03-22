@@ -1,0 +1,273 @@
+   Compiling ring v0.17.14
+   Compiling rustls v0.21.12
+   Compiling sct v0.7.1
+   Compiling rustls-webpki v0.101.7
+   Compiling tokio-rustls v0.24.1
+   Compiling hyper-rustls v0.24.2
+   Compiling reqwest v0.11.27
+   Compiling rjs v0.1.0 (/Users/remipelloux/RustroverProjects/RJS)
+warning: struct `Package` is never constructed
+  --> src/dependency/mod.rs:10:12
+   |
+10 | pub struct Package {
+   |            ^^^^^^^
+   |
+   = note: `Package` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` on by default
+
+warning: struct `DependencyTree` is never constructed
+  --> src/dependency/mod.rs:17:12
+   |
+17 | pub struct DependencyTree {
+   |            ^^^^^^^^^^^^^^
+
+warning: fields `registry` and `visited` are never read
+  --> src/dependency/mod.rs:23:5
+   |
+22 | pub struct DependencyResolver {
+   |            ------------------ fields in this struct
+23 |     registry: NpmRegistry,
+   |     ^^^^^^^^
+24 |     visited: HashSet<String>,
+   |     ^^^^^^^
+
+warning: methods `resolve_package`, `resolve_dependencies`, and `install_tree` are never used
+   --> src/dependency/mod.rs:35:18
+    |
+27  | impl DependencyResolver {
+    | ----------------------- methods in this implementation
+...
+35  |     pub async fn resolve_package(&mut self, name: &str, version_req: &str) -> Result<Package> {
+    |                  ^^^^^^^^^^^^^^^
+...
+87  |     pub async fn resolve_dependencies(&mut self, root_pkg: &Package) -> Result<DependencyTree> {
+    |                  ^^^^^^^^^^^^^^^^^^^^
+...
+102 |     pub async fn install_tree(&self, tree: &DependencyTree, install_path: &Path) -> Result<()> {
+    |                  ^^^^^^^^^^^^
+
+warning: function `read_package_json` is never used
+   --> src/dependency/mod.rs:142:8
+    |
+142 | pub fn read_package_json(path: &Path) -> Result<Package> {
+    |        ^^^^^^^^^^^^^^^^^
+
+warning: function `update_package_json` is never used
+   --> src/dependency/mod.rs:186:8
+    |
+186 | pub fn update_package_json(
+    |        ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `VersionInfo` is never constructed
+  --> src/registry/mod.rs:11:12
+   |
+11 | pub struct VersionInfo {
+   |            ^^^^^^^^^^^
+   |
+   = note: `VersionInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: fields `shasum` and `tarball` are never read
+  --> src/registry/mod.rs:20:9
+   |
+19 | pub struct DistInfo {
+   |            -------- fields in this struct
+20 |     pub shasum: String,
+   |         ^^^^^^
+21 |     pub tarball: String,
+   |         ^^^^^^^
+   |
+   = note: `DistInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: struct `PackageInfo` is never constructed
+  --> src/registry/mod.rs:25:12
+   |
+25 | pub struct PackageInfo {
+   |            ^^^^^^^^^^^
+   |
+   = note: `PackageInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: fields `version`, `dependencies`, `dev_dependencies`, and `dist` are never read
+  --> src/registry/mod.rs:33:5
+   |
+32 | struct NpmPackageVersion {
+   |        ----------------- fields in this struct
+33 |     version: String,
+   |     ^^^^^^^
+34 |     dependencies: Option<HashMap<String, String>>,
+   |     ^^^^^^^^^^^^
+35 |     #[serde(rename = "devDependencies")]
+36 |     dev_dependencies: Option<HashMap<String, String>>,
+   |     ^^^^^^^^^^^^^^^^
+37 |     dist: DistInfo,
+   |     ^^^^
+   |
+   = note: `NpmPackageVersion` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: fields `name`, `versions`, and `dist_tags` are never read
+  --> src/registry/mod.rs:42:5
+   |
+41 | struct NpmPackageResponse {
+   |        ------------------ fields in this struct
+42 |     name: String,
+   |     ^^^^
+43 |     versions: HashMap<String, NpmPackageVersion>,
+   |     ^^^^^^^^
+44 |     #[serde(rename = "dist-tags")]
+45 |     dist_tags: HashMap<String, String>,
+   |     ^^^^^^^^^
+   |
+   = note: `NpmPackageResponse` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: fields `client` and `registry_url` are never read
+  --> src/registry/mod.rs:49:5
+   |
+48 | pub struct NpmRegistry {
+   |            ----------- fields in this struct
+49 |     client: Client,
+   |     ^^^^^^
+50 |     registry_url: String,
+   |     ^^^^^^^^^^^^
+
+warning: methods `get_package_info`, `download_package`, and `extract_tarball` are never used
+   --> src/registry/mod.rs:70:18
+    |
+53  | impl NpmRegistry {
+    | ---------------- methods in this implementation
+...
+70  |     pub async fn get_package_info(&self, package_name: &str) -> Result<PackageInfo> {
+    |                  ^^^^^^^^^^^^^^^^
+...
+117 |     pub async fn download_package(
+    |                  ^^^^^^^^^^^^^^^^
+...
+150 |     pub fn extract_tarball(
+    |            ^^^^^^^^^^^^^^^
+
+warning: function `ensure_dir` is never used
+ --> src/utils/mod.rs:9:14
+  |
+9 | pub async fn ensure_dir(path: &Path) -> Result<()> {
+  |              ^^^^^^^^^^
+
+warning: function `write_file` is never used
+  --> src/utils/mod.rs:19:14
+   |
+19 | pub async fn write_file(path: &Path, content: &[u8]) -> Result<()> {
+   |              ^^^^^^^^^^
+
+warning: function `read_file` is never used
+  --> src/utils/mod.rs:33:14
+   |
+33 | pub async fn read_file(path: &Path) -> Result<Vec<u8>> {
+   |              ^^^^^^^^^
+
+warning: function `read_file_string` is never used
+  --> src/utils/mod.rs:40:14
+   |
+40 | pub async fn read_file_string(path: &Path) -> Result<String> {
+   |              ^^^^^^^^^^^^^^^^
+
+warning: function `file_exists` is never used
+  --> src/utils/mod.rs:47:14
+   |
+47 | pub async fn file_exists(path: &Path) -> bool {
+   |              ^^^^^^^^^^^
+
+warning: function `calculate_sha256` is never used
+  --> src/utils/mod.rs:52:8
+   |
+52 | pub fn calculate_sha256(data: &[u8]) -> String {
+   |        ^^^^^^^^^^^^^^^^
+
+warning: function `calculate_file_sha256` is never used
+  --> src/utils/mod.rs:59:14
+   |
+59 | pub async fn calculate_file_sha256(path: &Path) -> Result<String> {
+   |              ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `get_package_name_from_url` is never used
+  --> src/utils/mod.rs:65:8
+   |
+65 | pub fn get_package_name_from_url(url_str: &str) -> Result<String> {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `get_cache_dir` is never used
+  --> src/utils/mod.rs:80:8
+   |
+80 | pub fn get_cache_dir() -> Result<PathBuf> {
+   |        ^^^^^^^^^^^^^
+
+warning: function `get_temp_dir` is never used
+  --> src/utils/mod.rs:94:8
+   |
+94 | pub fn get_temp_dir() -> Result<PathBuf> {
+   |        ^^^^^^^^^^^^
+
+warning: `rjs` (bin "rjs") generated 23 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.97s
+     Running tests/performance.rs (target/debug/deps/performance-d2de353f852aa694)
+
+running 1 test
+Command: init -y
+Duration: 6.1531 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: list (empty)
+Duration: 0.6452 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: install lodash
+Duration: 3.0049 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: list (after install)
+Duration: 0.4924 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: install multiple packages
+Duration: 7.9969 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: install with --save-dev
+Duration: 3.0155 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: list --dev
+Duration: 0.5027 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+Command: list --production
+Duration: 0.6005 seconds
+Success: true
+Output: 
+
+--------------------------------------------------
+
+=== Performance Summary ===
+init -y: 6.1531 seconds
+list (empty): 0.6452 seconds
+install lodash: 3.0049 seconds
+list (after install): 0.4924 seconds
+install multiple: 7.9969 seconds
+install --save-dev: 3.0155 seconds
+list --dev: 0.5027 seconds
+list --production: 0.6005 seconds
+Total test time: 22.4111 seconds
+test test_command_performance ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 22.41s
+

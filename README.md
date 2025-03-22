@@ -38,37 +38,56 @@ rjs list
 ## Project Structure
 
 ```
-src/
-  ├── cli/
-  │   ├── commands/
-  │   │   ├── init.rs
-  │   │   ├── install.rs
-  │   │   ├── list.rs
-  │   │   └── mod.rs
-  │   └── mod.rs
-  ├── dependency/
-  │   └── mod.rs
-  ├── package/
-  │   └── mod.rs
-  ├── registry/
-  │   └── mod.rs
-  ├── utils/
-  │   └── mod.rs
-  └── main.rs
-tests/
-  ├── functional.rs
-  └── performance.rs
+.
+├── src/
+│   ├── cli/
+│   │   ├── commands/
+│   │   │   ├── init.rs
+│   │   │   ├── install.rs
+│   │   │   ├── list.rs
+│   │   │   └── mod.rs
+│   │   └── mod.rs
+│   ├── dependency/
+│   │   └── mod.rs
+│   ├── package/
+│   │   └── mod.rs
+│   ├── registry/
+│   │   └── mod.rs
+│   ├── utils/
+│   │   └── mod.rs
+│   └── main.rs
+├── tests/
+│   ├── functional.rs
+│   └── performance.rs
+└── scripts/
+    ├── dev/
+    │   ├── build.sh
+    │   └── setup.sh
+    ├── git/
+    │   └── push.sh
+    ├── tests/
+    │   ├── run_tests.sh
+    │   └── run_performance_tests.sh
+    └── utils/
+        └── common.sh
 ```
 
 ## Development
 
 ### Scripts
 
-- `./build.sh` - Build, format, and check the project
-- `./setup.sh` - Set up the development environment
-- `./run_tests.sh` - Run all tests
-- `./run_performance_tests.sh` - Run performance tests with detailed output
-- `./git_push.sh [commit message]` - Add, commit, and push changes to Git
+The project includes several utility scripts organized by category:
+
+#### Development Scripts (`scripts/dev/`)
+- `build.sh` - Build, format, and check the project
+- `setup.sh` - Set up the development environment
+
+#### Git Scripts (`scripts/git/`)
+- `push.sh [commit message]` - Add, commit, and push changes to Git
+
+#### Test Scripts (`scripts/tests/`)
+- `run_tests.sh` - Run all tests
+- `run_performance_tests.sh` - Run performance tests with detailed output
 
 ### Testing
 
@@ -81,11 +100,40 @@ To run tests:
 
 ```bash
 # Run all tests
-./run_tests.sh
+./scripts/tests/run_tests.sh
 
 # Run performance tests only
-./run_performance_tests.sh
+./scripts/tests/run_performance_tests.sh
 ```
+
+### Development Setup
+
+To set up the development environment:
+
+```bash
+./scripts/dev/setup.sh
+```
+
+This will:
+- Install required dependencies
+- Set up Rust toolchain
+- Install development tools
+- Configure git hooks
+- Create project structure
+
+### Building
+
+To build the project:
+
+```bash
+./scripts/dev/build.sh
+```
+
+This will:
+- Format code
+- Run linter
+- Check code
+- Build project
 
 ## License
 
