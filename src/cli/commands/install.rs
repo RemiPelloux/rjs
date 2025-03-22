@@ -86,6 +86,14 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
         opts.packages.iter().map(|p| style(p).bold().to_string()).collect::<Vec<_>>().join(", ")
     );
 
+    // Display frozen mode message if enabled
+    if opts.frozen {
+        println!("  {} Using {} mode - exact versions from lockfile", 
+            style("•").yellow(),
+            style("frozen").bold()
+        );
+    }
+
     // Set up progress bars if enabled
     let progress_enabled = !opts.no_progress && atty::is(atty::Stream::Stdout);
     let multi_progress = MultiProgress::new();
@@ -157,7 +165,7 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
     
     // Actually install packages
     let install_result = resolver
-        .resolve_and_install(&packages_to_install, &cwd, opts.save_dev)
+        .resolve_and_install(&packages_to_install, &cwd, opts.save_dev, opts.frozen)
         .await;
     
     // Complete progress bars if enabled
@@ -208,7 +216,7 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
 async fn install_from_package_json(
     cwd: &Path, 
     resolver: &DependencyResolver, 
-    _frozen: bool,
+    frozen: bool,
     no_progress: bool
 ) -> Result<()> {
     let start_time = Instant::now();
@@ -277,6 +285,14 @@ async fn install_from_package_json(
         );
     }
     
+    // Display frozen mode message if enabled
+    if frozen {
+        println!("  {} Using {} mode - exact versions from lockfile", 
+            style("•").yellow(),
+            style("frozen").bold()
+        );
+    }
+    
     // Update progress message
     if progress_enabled {
         progress_bar.set_message("Installing dependencies...");
@@ -284,8 +300,8 @@ async fn install_from_package_json(
     
     // Install both types of dependencies concurrently
     let (regular_result, dev_result) = future::join(
-        resolver.resolve_and_install(&regular_deps, cwd, false),
-        resolver.resolve_and_install(&dev_deps, cwd, true)
+        resolver.resolve_and_install(&regular_deps, cwd, false, frozen),
+        resolver.resolve_and_install(&dev_deps, cwd, true, frozen)
     ).await;
     
     // Check results

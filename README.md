@@ -8,6 +8,8 @@ A lightning-fast, high-performance JavaScript package manager built with Rust.
 - **Install packages** - Ultra-fast dependency installation with parallel processing
 - **Dependency management** - Handle both production and development dependencies
 - **List installed packages** - View all dependencies with formatted output
+- **Dependency deduplication** - Intelligently reduce duplicate dependencies by resolving compatible versions
+- **Lockfile generation** - Automatically generate and use lockfiles for reproducible builds
 - **Optimized performance** - Up to 2000x faster than traditional package managers for certain operations
 - **Advanced caching** - Smart package resolution caching to avoid redundant network requests
 - **Parallel downloads** - Concurrent package retrieval and installation
@@ -47,6 +49,9 @@ rjs install pkg1 pkg2 pkg3
 
 # Install from package.json
 rjs install
+
+# Install using lockfile (exact versions)
+rjs install --frozen/-f
 
 # Install with custom concurrency level
 rjs install --concurrency 16
@@ -141,7 +146,25 @@ The new installation engine leverages advanced concurrency techniques:
 - **Parallel Extraction**: Extracts package tarballs using dedicated worker threads
 - **Asynchronous File I/O**: Non-blocking file operations to maximize throughput
 
-### 3. Customizable Performance Settings
+### 3. Dependency Deduplication
+
+Intelligently reduces node_modules bloat:
+
+- **Compatible Version Resolution**: Finds single versions that satisfy multiple dependency requirements
+- **Semantic Version Analysis**: Uses semver to identify compatible package versions
+- **Dependency Tree Optimization**: Rewrites dependency tree to eliminate redundant packages
+- **Installation Size Reduction**: Significantly reduces disk space usage and install time
+
+### 4. Lockfile Generation
+
+Ensures reproducible builds across environments:
+
+- **Automatic Lockfile Creation**: Generates `rjs-lock.json` with exact package versions
+- **Package Integrity Verification**: Includes integrity hashes for security validation
+- **Frozen Installs**: Use `--frozen` flag to install exact versions from lockfile
+- **Resolution URL Tracking**: Records exact download locations for all packages
+
+### 5. Customizable Performance Settings
 
 Fine-tune performance for your specific hardware:
 
@@ -279,11 +302,11 @@ MIT
 - ⚙️ Customizable performance settings
 - 🚀 Streaming downloads with minimal memory usage
 - 🧵 Work-stealing algorithm for optimal resource usage
+- 🔄 Dependency deduplication
+- 🔒 Lockfile generation
 
 ## Roadmap
 
-- 🔄 Dependency deduplication
-- 🔒 Lockfile generation
 - 📊 Visualization of dependency tree
 - 🌐 Offline mode
 - 🔍 Vulnerability scanning

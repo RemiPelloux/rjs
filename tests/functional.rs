@@ -301,3 +301,78 @@ fn test_no_save_option() {
         assert!(deps.get("underscore").is_none(), "underscore was added to dependencies despite --no-save");
     }
 }
+
+#[test]
+fn test_lockfile_generation() {
+    let env = TestEnv::new();
+    
+    // Initialize project
+    let init_output = env.run_command(&["init", "--yes"]);
+    assert!(init_output.status.success(), "Failed to initialize project");
+    
+    // Install packages
+    let output = env.run_command(&["install", "lodash", "express", "chalk"]);
+    assert!(output.status.success(), "Install command failed");
+    
+    // Check if lockfile was created
+    let lockfile_exists = Path::new("rjs-lock.json").exists();
+    assert!(lockfile_exists, "rjs-lock.json was not created");
+    
+    // Verify lockfile content
+    let lockfile_content = fs::read_to_string("rjs-lock.json").expect("Failed to read rjs-lock.json");
+    let lockfile_json: serde_json::Value = serde_json::from_str(&lockfile_content).expect("Failed to parse lockfile");
+    
+    // Check basic lockfile structure
+    assert!(lockfile_json.get("name").is_some(), "lockfile missing name field");
+    assert!(lockfile_json.get("version").is_some(), "lockfile missing version field");
+    assert!(lockfile_json.get("lockfile_version").is_some(), "lockfile missing lockfile_version field");
+    assert!(lockfile_json.get("packages").is_some(), "lockfile missing packages field");
+    
+    // Check that packages are in the lockfile
+    let packages = lockfile_json.get("packages").unwrap();
+    assert!(packages.as_object().unwrap().len() > 0, "No packages in lockfile");
+    
+    // Check that it contains at least our top-level packages
+    let packages_obj = packages.as_object().unwrap();
+    let has_lodash = packages_obj.keys().any(|k| k.contains("lodash@"));
+    let has_express = packages_obj.keys().any(|k| k.contains("express@"));
+    let has_chalk = packages_obj.keys().any(|k| k.contains("chalk@"));
+    
+    assert!(has_lodash, "lodash not found in lockfile");
+    assert!(has_express, "express not found in lockfile");
+    assert!(has_chalk, "chalk not found in lockfile");
+}
+
+#[test]
+fn test_frozen_install() {
+    let env = TestEnv::new();
+    
+    // Initialize project
+    let init_output = env.run_command(&["init", "--yes"]);
+    assert!(init_output.status.success(), "Failed to initialize project");
+    
+    // First install to generate lockfile
+    let first_install = env.run_command(&["install", "lodash"]);
+    assert!(first_install.status.success(), "First install failed");
+    
+    // Verify lockfile exists
+    assert!(Path::new("rjs-lock.json").exists(), "Lockfile not created");
+    
+    // Remove node_modules
+    fs::remove_dir_all("node_modules").expect("Failed to remove node_modules");
+    
+    // Install with --frozen flag
+    let frozen_install = env.run_command(&["install", "--frozen"]);
+    assert!(frozen_install.status.success(), "Frozen install failed");
+    
+    // Verify output indicates frozen mode
+    let stdout = String::from_utf8_lossy(&frozen_install.stdout);
+    assert!(
+        stdout.contains("frozen") || 
+        stdout.contains("lockfile"), 
+        "Output doesn't mention frozen mode or lockfile"
+    );
+    
+    // Verify node_modules restored correctly
+    assert!(Path::new("node_modules/lodash").exists(), "lodash package not reinstalled");
+}

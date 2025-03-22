@@ -124,6 +124,9 @@ function check_dependencies() {
 
 # Main execution
 function main() {
+    log_info "Running comprehensive performance test suite with environment setup"
+    log_info "Note: For quick performance test runs during development, use 'cargo test --release --test performance' directly"
+    
     check_dependencies
     setup_test_env
     

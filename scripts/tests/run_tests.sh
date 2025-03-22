@@ -15,10 +15,10 @@ TEMP_DIR="/tmp/rjs_test_$(date +%s)"
 function run_functional_tests() {
     log_info "Running functional tests..."
     
-    # Run basic tests from project directory
+    # Run basic tests from project directory using release mode for better performance
     log_info "Running basic command tests"
     cd "$PROJECT_DIR"
-    cargo test --test functional -- --nocapture
+    cargo test --release --test functional -- --nocapture
     
     # Test init command with --yes flag
     log_info "Testing init command with --yes flag"
@@ -27,7 +27,7 @@ function run_functional_tests() {
     cd "$test_dir"
     
     # Run the init command with --yes flag
-    "$PROJECT_DIR/target/debug/rjs" init --yes
+    "$PROJECT_DIR/target/release/rjs" init --yes
     
     # Verify package.json was created
     if [ -f "package.json" ]; then
@@ -53,7 +53,7 @@ function run_performance_tests() {
     
     # Export the project directory for the performance tests
     export RJS_PROJECT_DIR="$PROJECT_DIR"
-    cargo test --test performance -- --nocapture
+    cargo test --release --test performance -- --nocapture
 }
 
 # Function to setup test environment
@@ -61,9 +61,9 @@ function setup_test_env() {
     # Ensure we're in the project directory
     cd "$PROJECT_DIR"
     
-    # Build the project first
-    log_info "Building project..."
-    cargo build
+    # Build the project in release mode
+    log_info "Building project in release mode..."
+    cargo build --release
     
     # Create temp directory
     ensure_dir "$TEMP_DIR"
@@ -93,6 +93,9 @@ function check_dependencies() {
 
 # Main execution
 function main() {
+    log_info "Running comprehensive test suite with environment setup"
+    log_info "Note: For quick test runs during development, use 'cargo test --release' directly"
+    
     check_dependencies
     setup_test_env
     

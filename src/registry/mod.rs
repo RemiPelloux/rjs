@@ -247,4 +247,9 @@ impl NpmRegistry {
 
         Ok(())
     }
+
+    // Add a method to get the registry URL
+    pub fn get_registry_url(&self) -> &str {
+        &self.registry_url
+    }
 }
