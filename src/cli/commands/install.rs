@@ -81,15 +81,15 @@ pub async fn execute(opts: InstallOptions) -> Result<()> {
 
         // Simulate dependency resolution
         pb.set_message("Resolving dependencies...");
-        time::sleep(Duration::from_millis(800)).await;
+        time::sleep(Duration::from_millis(100)).await;
 
         // Simulate download
         pb.set_message("Downloading...");
-        time::sleep(Duration::from_millis(1200)).await;
+        time::sleep(Duration::from_millis(200)).await;
 
         // Simulate extraction
         pb.set_message("Extracting...");
-        time::sleep(Duration::from_millis(500)).await;
+        time::sleep(Duration::from_millis(50)).await;
 
         // Finish
         pb.finish_with_message(format!("{} Installed", style("✓").green()));
@@ -151,13 +151,13 @@ async fn install_from_package_json(cwd: &Path, _frozen: bool) -> Result<()> {
     // Simulate installation
     for (name, _) in dependencies.iter() {
         progress_bar.set_message(format!("Installing {}...", name));
-        time::sleep(Duration::from_millis(300)).await;
+        time::sleep(Duration::from_millis(50)).await;
         progress_bar.inc(1);
     }
 
     for (name, _) in dev_dependencies.iter() {
         progress_bar.set_message(format!("Installing {}...", name));
-        time::sleep(Duration::from_millis(300)).await;
+        time::sleep(Duration::from_millis(50)).await;
         progress_bar.inc(1);
     }
 

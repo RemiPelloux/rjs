@@ -20,6 +20,10 @@ function run_functional_tests() {
 # Function to run performance tests
 function run_performance_tests() {
     log_info "Running performance tests..."
+    # Ensure the release binary is built
+    cargo build --release
+    # Export the project directory for the performance tests
+    export RJS_PROJECT_DIR="$PROJECT_DIR"
     cargo test --test performance -- --nocapture
 }
 
@@ -35,6 +39,7 @@ function setup_test_env() {
 function cleanup_test_env() {
     cleanup "$TEMP_DIR"
     unset RJS_TEST_TEMP_DIR
+    unset RJS_PROJECT_DIR
 }
 
 # Function to check test dependencies

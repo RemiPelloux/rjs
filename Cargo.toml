@@ -39,7 +39,22 @@ tempfile = "3.8"
 criterion = "0.5"
 mockito = "1.2"
 tokio-test = "0.4"
+once_cell = "1.19.0"
 
 [[bin]]
 name = "rjs"
 path = "src/main.rs"
+
+# Add or update the [profile.release] section
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# Add a performance profile for even better benchmarking
+[profile.bench]
+inherits = "release"
+debug = false
+incremental = false
